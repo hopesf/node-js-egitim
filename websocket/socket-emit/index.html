@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        var socket = io();
+        // emit eğer html sayfasında yazıldıysa kullanıcıdan sunucuya veri yolluyoruz.
+        socket.emit('hola', { sehir:'Ankara',name:'selim' });
+        //on işleminde sunucudan kullanıcıya res.send mantığı yapıyoruz.
+        socket.on('puta',(data)=>{
+           $('h2').html(data.yaz);
+        });
+    </script>
+</head>
+<body>
+<h1>sockete devammm</h1>
+<h2></h2>
+</body>
+</html>

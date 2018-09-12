@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <style>#leave{display:none;}</style>
+    <title>Socket.IO chat</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(() =>{
+            const socket = io();
+            $('#join').on('click',()=>{
+                socket.emit('oda',{ name: $('#room').val() });
+            });
+
+            $('#leave').on('click',()=>{
+               socket.emit('cik', { name: $('#room').val() });
+            });
+
+            socket.on('yeni kisi',(data)=>{
+                $('.logs').html(`bu odada <b>${data.kisi}</b>kişi var.`);
+            });
+
+            socket.on('leaved',(data)=>{
+                $('.logs').html(`bu odada <b>${data.kisi}</b>kişi var.`);
+            });
+
+            socket.on('bilgi',(data)=>{
+                $('.bilg').html(data.mesaj);
+                $('#room, #join').attr('disabled','disabled');
+                $('#leave').show();
+            });
+
+            socket.on('socket.leaved',(data)=>{
+                $('.bilg').append('</br>'+ data.mesaj +'</br>');
+                $('#room, #join').removeAttr('disabled');
+                $('#leave').hide();
+                $('.logs').empty();
+            });
+        });
+    </script>
+</head>
+<body>
+
+<input type="text" id="room">
+<button id="join">odaya Bağlan</button>
+<button id="leave">odadan ayrıl</button>
+<div class="bilg"></div>
+<div class="logs"></div>
+
+</body>
+</html>
